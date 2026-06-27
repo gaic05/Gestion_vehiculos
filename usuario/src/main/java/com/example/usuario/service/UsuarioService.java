@@ -5,9 +5,11 @@ import com.example.usuario.dto.UsuarioResponse;
 import com.example.usuario.exception.RutDuplicadoException;
 import com.example.usuario.exception.UsuarioNotFoundException;
 import com.example.usuario.mapper.UsuarioMapper;
+import com.example.usuario.model.TipoUsuario;
 import com.example.usuario.model.Usuario;
 import com.example.usuario.repository.TipoUsuarioRepository;
 import com.example.usuario.repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,10 +39,14 @@ public class UsuarioService {
                     .orElse("Desconocido");
             throw new RutDuplicadoException(request.getRut(), usuarioExistente);
         }
+        TipoUsuario tipo = tipoUsuarioRepository.findById(
+                request.getTipoUsuario().getId()
+        ).orElseThrow(() -> new RuntimeException("TipoUsuario no existe"));
         Usuario usuario = usuarioMapper.toModel(request);
         if (usuario == null) {
             throw new IllegalArgumentException("La solicitud de usuario no pudo ser procesada.");
         }
+        usuario.setTipoUsuario(tipo);
         Usuario guardado = usuarioRepository.save(usuario);
         return usuarioMapper.toResponse(guardado);
     }
@@ -70,11 +76,10 @@ public class UsuarioService {
         Usuario guardado = usuarioRepository.save(existente);
         return usuarioMapper.toResponse(guardado);
     }
-
+    @Transactional
     public void deleteByRut(Long rut) {
-
-        usuarioRepository.findByRut(rut).orElseThrow(() -> new UsuarioNotFoundException(rut));
-
-        usuarioRepository.deleteByRut(rut);
+        Usuario usuario = usuarioRepository.findByRut(rut)
+                .orElseThrow(() -> new UsuarioNotFoundException(rut));
+        usuarioRepository.delete(usuario);
     }
 }

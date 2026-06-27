@@ -14,13 +14,13 @@
 	</parent>
 
 	<groupId>com.duoc</groupId>
-	<artifactId>biblioteca</artifactId>
+	<artifactId>usuario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>biblioteca</name>
 	<description>Proyecto Biblioteca</description>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>20</java.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok.version>1.18.44</lombok.version>
 	</properties>

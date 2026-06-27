@@ -16,9 +16,6 @@ public interface UsuarioMapper {
     Usuario toModel(UsuarioRequest request);
 
     @Mapping(target = "tipo", source = "tipoUsuario.nombre")
-
     UsuarioResponse toResponse(Usuario usuario);
-
-
     List<UsuarioResponse> toResponseList(List<Usuario> usuarios);
 }

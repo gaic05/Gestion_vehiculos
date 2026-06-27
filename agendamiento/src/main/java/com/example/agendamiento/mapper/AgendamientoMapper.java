@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AgendamientoMapper {
     @Mapping(target = "id", ignore = true)
     Agendamiento toModel(AgendamientoRequest request);
@@ -19,5 +19,5 @@ public interface AgendamientoMapper {
     @Mapping(target = "descripcion", source = "descripcion")
     AgendamientoResponse toResponse(Agendamiento agendamiento);
 
-    List<AgendamientoResponse> toResponseList(List<Agendamiento> Agendamiento);;
+    List<AgendamientoResponse> toResponseList(List<Agendamiento> agendamientos);
 }
